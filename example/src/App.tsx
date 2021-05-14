@@ -4,16 +4,39 @@ import { StyleSheet, View, Text } from 'react-native';
 import HeaderScrollview from 'react-native-header-scrollview';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    HeaderScrollview.multiply(3, 7).then(setResult);
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <HeaderScrollview title="Hellow">
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+      <View style={styles.box}>
+        <Text>Items</Text>
+      </View>
+    </HeaderScrollview>
   );
 }
 
@@ -24,8 +47,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   box: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
     marginVertical: 20,
   },
 });
