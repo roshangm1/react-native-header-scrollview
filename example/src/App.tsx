@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import HeaderScrollview from 'react-native-header-scrollview';
+import HeaderScrollview from '@roshangm1/react-native-header-scrollview';
 
 export default function App() {
   const data = [

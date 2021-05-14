@@ -1,6 +1,6 @@
 {
-  "name": "react-native-header-scrollview-example",
-  "description": "Example app for react-native-header-scrollview",
+  "name": "@roshangm1/react-native-header-scrollview-example",
+  "description": "Example app for @roshangm1/react-native-header-scrollview",
   "version": "0.0.1",
   "private": true,
   "scripts": {
