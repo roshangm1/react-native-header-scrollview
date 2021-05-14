@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import {
   Animated,
   Dimensions,
@@ -56,6 +56,7 @@ interface Props {
   scrollViewProps?: ScrollViewProps;
   flatListProps?: Omit<FlatListProps<any>, 'renderItem'>;
   renderItem?: any;
+  flatListRef?: MutableRefObject<FlatList<any>>;
 }
 const HeaderScrollView: React.FC<Props> = (props) => {
   const initialState = {
@@ -116,6 +117,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     scrollViewProps = {},
     flatListProps,
     renderItem,
+    flatListRef,
   } = props;
 
   //@ts-ignore
@@ -136,6 +138,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
       return (
         <FlatList
           {...flatListProps}
+          ref={flatListRef}
           renderItem={({ item, index }) => {
             if (index === 0) {
               return (

@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import HeaderScrollview from 'react-native-header-scrollview';
 
 export default function App() {
+  const ref = React.useRef<FlatList<any>>();
   const data = [
     { id: 'header' },
     { id: 1 },
@@ -22,28 +23,37 @@ export default function App() {
       </View>
     );
   };
-  // return (
-  //   <HeaderScrollview
-  //     title="Hellow"
-  //     useFlatlist={true}
-  //     flatListProps={{
-  //       data,
-  //       keyExtractor: (item) => item.id.toString(),
-  //     }}
-  //     renderItem={renderItem}
-  //   />
-  // );
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      ref?.current?.scrollToEnd?.({ animated: true });
+    }, 1000);
+  }, []);
   return (
-    <HeaderScrollview title="Hello">
-      {data.map((item, index) => {
-        if (index === 0) {
-          return null;
-        }
-        return renderItem({ item });
-      })}
-    </HeaderScrollview>
+    <>
+      <HeaderScrollview
+        flatListRef={ref}
+        title="Hellow"
+        useFlatlist={true}
+        flatListProps={{
+          data: data,
+          keyExtractor: (item) => item.id.toString(),
+        }}
+        renderItem={renderItem}
+      />
+    </>
   );
+
+  // return (
+  //   <HeaderScrollview title="Hello">
+  //     {data.map((item, index) => {
+  //       if (index === 0) {
+  //         return null;
+  //       }
+  //       return renderItem({ item });
+  //     })}
+  //   </HeaderScrollview>
+  // );
 }
 
 const styles = StyleSheet.create({
