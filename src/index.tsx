@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {
   Animated,
   Dimensions,
+  FlatList,
+  FlatListProps,
   ScrollView,
   ScrollViewProps,
   StyleProp,
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   title: string;
+  useFlatlist?: boolean;
   titleStyle?: StyleProp<TextStyle>;
   headlineStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -51,6 +54,8 @@ interface Props {
   scrollContainerStyle?: StyleProp<ViewStyle>;
   fadeDirection?: 'up' | 'down';
   scrollViewProps?: ScrollViewProps;
+  flatListProps?: Omit<FlatListProps<any>, 'renderItem'>;
+  renderItem?: any;
 }
 const HeaderScrollView: React.FC<Props> = (props) => {
   const initialState = {
@@ -98,6 +103,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
   };
 
   const {
+    useFlatlist,
     children,
     title = '',
     titleStyle,
@@ -108,6 +114,8 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     scrollContainerStyle = {},
     fadeDirection,
     scrollViewProps = {},
+    flatListProps,
+    renderItem,
   } = props;
 
   //@ts-ignore
@@ -123,20 +131,50 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     extrapolate: 'clamp',
   });
 
-  return (
-    <View style={[styles.container, containerStyle]}>
-      <View style={[styles.headerContainer, headerContainerStyle]}>
-        <Fade visible={state.isHeaderScrolled} direction={fadeDirection}>
-          <View
-            style={[
-              styles.headerComponentContainer,
-              headerComponentContainerStyle,
-            ]}
-          >
-            <Text style={[styles.headline, headlineStyle]}>{title}</Text>
-          </View>
-        </Fade>
-      </View>
+  const renderConditionalListView = () => {
+    if (useFlatlist) {
+      return (
+        <FlatList
+          {...flatListProps}
+          renderItem={({ item, index }) => {
+            if (index === 0) {
+              return (
+                <View>
+                  <Animated.Text
+                    style={[
+                      styles.title,
+                      titleStyle,
+                      titleStyles,
+                      {
+                        fontSize: animatedFontSize,
+                      },
+                    ]}
+                    onLayout={onLayout}
+                  >
+                    {title}
+                  </Animated.Text>
+                </View>
+              );
+            }
+            return renderItem({ item, index });
+          }}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: { contentOffset: { y: scrollAnimatedValue } },
+              },
+            ],
+            {
+              listener: handleScroll,
+              useNativeDriver: false,
+            }
+          )}
+          scrollEventThrottle={8}
+          contentContainerStyle={scrollContainerStyle}
+        />
+      );
+    }
+    return (
       <ScrollView
         onScroll={Animated.event(
           [
@@ -170,6 +208,23 @@ const HeaderScrollView: React.FC<Props> = (props) => {
         </View>
         {children}
       </ScrollView>
+    );
+  };
+  return (
+    <View style={[styles.container, containerStyle]}>
+      <View style={[styles.headerContainer, headerContainerStyle]}>
+        <Fade visible={state.isHeaderScrolled} direction={fadeDirection}>
+          <View
+            style={[
+              styles.headerComponentContainer,
+              headerComponentContainerStyle,
+            ]}
+          >
+            <Text style={[styles.headline, headlineStyle]}>{title}</Text>
+          </View>
+        </Fade>
+      </View>
+      {renderConditionalListView()}
     </View>
   );
 };
