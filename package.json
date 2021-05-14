@@ -12,12 +12,7 @@
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
-    "android",
-    "ios",
-    "cpp",
-    "!lib/typescript/example",
-    "!android/build",
-    "!ios/build"
+    "!lib/typescript/example"
   ],
   "scripts": {
     "test": "jest",
@@ -34,13 +29,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://www.roshan.info.np",
+  "repository": "https://github.com/roshangm1/react-native-header-scrollview",
   "author": "Roshan Gautam <roshangm01@gmail.com> (https://www.roshan.info.np)",
   "license": "MIT",
   "bugs": {
-    "url": "https://www.roshan.info.np/issues"
+    "url": "https://github.com/roshangm1/react-native-header-scrollview/issues"
   },
-  "homepage": "https://www.roshan.info.np#readme",
+  "homepage": "https://github.com/roshangm1/react-native-header-scrollview",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
