@@ -1,21 +1,23 @@
 # react-native-header-scrollview
 
-Library for big header like ios
+Library for big header like ios with Typescript support
+
+Version that uses react-native-reanimated v2 coming soon.
 
 ## Installation
 
 ```sh
-npm install react-native-header-scrollview
+yarn add react-native-header-scrollview
 ```
 
 ## Usage
 
 ```js
-import HeaderScrollview from "react-native-header-scrollview";
+import HeaderScrollview from 'react-native-header-scrollview';
 
 // ...
 
-const result = await HeaderScrollview.multiply(3, 7);
+return <HeaderScrollview title="Hello">content...</HeaderScrollview>;
 ```
 
 ## Contributing
