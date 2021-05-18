@@ -17,7 +17,7 @@ import Fade from 'react-native-fade';
 
 const { height } = Dimensions.get('window');
 
-const headerHeight = 60;
+const headerHeight = 25;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'transparent' },
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   headerComponentContainer: {
     height: headerHeight,
     alignItems: 'center',
-    paddingBottom: 12,
   },
   headline: {
     fontSize: 17,
@@ -72,8 +71,8 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     setState((prevState) => {
       return {
         ...prevState,
-        headerHeight: event.nativeEvent.layout.height,
-        headerY: event.nativeEvent.layout.y,
+        headerHeight: event?.nativeEvent?.layout?.height ?? 0,
+        headerY: event?.nativeEvent?.layout?.y ?? 0,
       };
     });
   };
@@ -81,7 +80,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
   const scrollAnimatedValue = new Animated.Value(0);
 
   const handleScroll = (event) => {
-    const offset = event.nativeEvent.contentOffset.y;
+    const offset = event?.nativeEvent?.contentOffset?.y;
     const scrollHeaderOffset = state.headerHeight + state.headerY - 8;
     const isHeaderScrolled = scrollHeaderOffset < offset;
 
