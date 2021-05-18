@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontWeight: '500',
     letterSpacing: 0.019,
+    textAlign: 'center',
     width: Dimensions.get('window').width / 2.5,
   },
   title: {

@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <HeaderScrollview title="Hello world this is world i don't know fuck this shitman">
+      <HeaderScrollview title="Hello world">
         {data.map((item, index) => {
           if (index === 0) {
             return null;
