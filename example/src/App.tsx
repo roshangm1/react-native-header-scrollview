@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, FlatList } from 'react-native';
-import HeaderScrollview from 'react-native-header-scrollview';
+import { StyleSheet, View, Text, FlatList, SafeAreaView } from 'react-native';
+import HeaderScrollview from '@roshangm1/react-native-header-scrollview';
 
 export default function App() {
   const ref = React.useRef<FlatList<any>>();
@@ -30,10 +30,20 @@ export default function App() {
     }, 1000);
   }, []);
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View
+        style={{
+          alignSelf: 'center',
+          position: 'absolute',
+          right: 16,
+          top: 16,
+        }}
+      >
+        <Text>Global settings</Text>
+      </View>
       <HeaderScrollview
         flatListRef={ref}
-        title="Hellow"
+        title="Hellow world adsfasdfasdfasdfasdf asdfa sdfasdf asdfasdf asdf asdf asdf asdf"
         useFlatlist={true}
         flatListProps={{
           data: data,
@@ -41,7 +51,7 @@ export default function App() {
         }}
         renderItem={renderItem}
       />
-    </>
+    </SafeAreaView>
   );
 
   // return (

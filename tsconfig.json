@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-header-scrollview": ["./src/index"]
+      "@roshangm1/react-native-header-scrollview": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

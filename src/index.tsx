@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   headerComponentContainer: {
     height: headerHeight,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
     paddingBottom: 12,
   },
   headline: {
@@ -35,11 +35,12 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontWeight: '500',
     letterSpacing: 0.019,
+    width: Dimensions.get('window').width / 2.5,
   },
   title: {
     letterSpacing: 0.011,
     fontWeight: '700',
-    marginLeft: 16,
+    paddingHorizontal: 16,
   },
 });
 
@@ -152,6 +153,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
                         fontSize: animatedFontSize,
                       },
                     ]}
+                    numberOfLines={2}
                     onLayout={onLayout}
                   >
                     {title}
@@ -223,7 +225,9 @@ const HeaderScrollView: React.FC<Props> = (props) => {
               headerComponentContainerStyle,
             ]}
           >
-            <Text style={[styles.headline, headlineStyle]}>{title}</Text>
+            <Text style={[styles.headline, headlineStyle]} numberOfLines={1}>
+              {title}
+            </Text>
           </View>
         </Fade>
       </View>
