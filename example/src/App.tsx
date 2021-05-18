@@ -29,41 +29,43 @@ export default function App() {
       ref?.current?.scrollToEnd?.({ animated: true });
     }, 1000);
   }, []);
+  // return (
+  //   <SafeAreaView style={{ flex: 1 }}>
+  //     <View
+  //       style={{
+  //         alignSelf: 'center',
+  //         position: 'absolute',
+  //         right: 16,
+  //         top: 16,
+  //       }}
+  //     >
+  //       <Text>Global settings</Text>
+  //     </View>
+  //     <HeaderScrollview
+  //       flatListRef={ref}
+  //       title="Hellow world adsfasdfasdfasdfasdf asdfa sdfasdf asdfasdf asdf asdf asdf asdf"
+  //       useFlatlist={true}
+  //       flatListProps={{
+  //         data: data,
+  //         keyExtractor: (item) => item.id.toString(),
+  //       }}
+  //       renderItem={renderItem}
+  //     />
+  //   </SafeAreaView>
+  // );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          alignSelf: 'center',
-          position: 'absolute',
-          right: 16,
-          top: 16,
-        }}
-      >
-        <Text>Global settings</Text>
-      </View>
-      <HeaderScrollview
-        flatListRef={ref}
-        title="Hellow world adsfasdfasdfasdfasdf asdfa sdfasdf asdfasdf asdf asdf asdf asdf"
-        useFlatlist={true}
-        flatListProps={{
-          data: data,
-          keyExtractor: (item) => item.id.toString(),
-        }}
-        renderItem={renderItem}
-      />
+      <HeaderScrollview title="Hello world this is world i don't know fuck this shitman">
+        {data.map((item, index) => {
+          if (index === 0) {
+            return null;
+          }
+          return renderItem({ item });
+        })}
+      </HeaderScrollview>
     </SafeAreaView>
   );
-
-  // return (
-  //   <HeaderScrollview title="Hello">
-  //     {data.map((item, index) => {
-  //       if (index === 0) {
-  //         return null;
-  //       }
-  //       return renderItem({ item });
-  //     })}
-  //   </HeaderScrollview>
-  // );
 }
 
 const styles = StyleSheet.create({

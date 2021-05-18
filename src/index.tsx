@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   headerComponentContainer: {
     height: headerHeight,
     alignItems: 'center',
-    // justifyContent: 'flex-end',
     paddingBottom: 12,
   },
   headline: {
@@ -206,6 +205,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
                 fontSize: animatedFontSize,
               },
             ]}
+            numberOfLines={2}
             onLayout={onLayout}
           >
             {title}
