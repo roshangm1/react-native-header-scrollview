@@ -1,6 +1,6 @@
 {
   "name": "@roshangm1/react-native-header-scrollview",
-  "version": "0.3.3",
+  "version": "0.3.8",
   "description": "Library for big header like ios",
   "main": "lib/commonjs/index",
   "types": "lib/typescript/src/index.d.ts",
@@ -132,8 +132,5 @@
       "typescript"
     ]
   },
-  "dependencies": {
-    "react-native-fade": "^2.0.2",
-    "react-native-reanimated": "1.10.1"
-  }
+  "dependencies": {}
 }

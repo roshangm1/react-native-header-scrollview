@@ -1,7 +1,8 @@
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, useEffect, useState } from 'react';
 import {
   Animated,
   Dimensions,
+  Easing,
   FlatList,
   FlatListProps,
   ScrollView,
@@ -13,11 +14,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Fade from 'react-native-fade';
 
 const { height } = Dimensions.get('window');
 
-const headerHeight = 25;
+const headerHeight = 45;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'transparent' },
@@ -52,7 +52,6 @@ interface Props {
   headerContainerStyle?: StyleProp<ViewStyle>;
   headerComponentContainerStyle?: StyleProp<ViewStyle>;
   scrollContainerStyle?: StyleProp<ViewStyle>;
-  fadeDirection?: 'up' | 'down';
   scrollViewProps?: ScrollViewProps;
   flatListProps?: Omit<FlatListProps<any>, 'renderItem'>;
   renderItem?: any;
@@ -113,7 +112,6 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     headerComponentContainerStyle = {},
     headlineStyle = {},
     scrollContainerStyle = {},
-    fadeDirection,
     scrollViewProps = {},
     flatListProps,
     renderItem,
@@ -131,6 +129,26 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     inputRange: [-height, 0],
     outputRange: [fontSize * 1.75, fontSize],
     extrapolate: 'clamp',
+  });
+
+  const [titleFade] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    state.isHeaderScrolled === false &&
+      Animated.timing(titleFade, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+        easing: Easing.sin,
+      }).start();
+
+    state.isHeaderScrolled === true &&
+      Animated.timing(titleFade, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+        easing: Easing.sin,
+      }).start();
   });
 
   const renderConditionalListView = () => {
@@ -218,18 +236,17 @@ const HeaderScrollView: React.FC<Props> = (props) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <View style={[styles.headerContainer, headerContainerStyle]}>
-        <Fade visible={state.isHeaderScrolled} direction={fadeDirection}>
-          <View
-            style={[
-              styles.headerComponentContainer,
-              headerComponentContainerStyle,
-            ]}
-          >
-            <Text style={[styles.headline, headlineStyle]} numberOfLines={1}>
-              {title}
-            </Text>
-          </View>
-        </Fade>
+        <Animated.View
+          style={[
+            styles.headerComponentContainer,
+            headerComponentContainerStyle,
+            { opacity: titleFade },
+          ]}
+        >
+          <Text style={[styles.headline, headlineStyle]} numberOfLines={1}>
+            {title}
+          </Text>
+        </Animated.View>
       </View>
       {renderConditionalListView()}
     </View>
