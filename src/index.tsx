@@ -1,11 +1,8 @@
-import React, { MutableRefObject, useEffect, useState } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import {
-  Animated,
   Dimensions,
-  Easing,
   FlatList,
   FlatListProps,
-  ScrollView,
   ScrollViewProps,
   StyleProp,
   StyleSheet,
@@ -14,6 +11,14 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import Animated, {
+  Easing,
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 const { height } = Dimensions.get('window');
 
@@ -76,7 +81,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     });
   };
 
-  const scrollAnimatedValue = new Animated.Value(0);
+  const scrollAnimatedValue = useSharedValue(0);
 
   const handleScroll = (event) => {
     const offset = event?.nativeEvent?.contentOffset?.y;
@@ -125,30 +130,25 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     lineHeight: fontSize * 1.2,
   };
 
-  const animatedFontSize = scrollAnimatedValue.interpolate({
-    inputRange: [-height, 0],
-    outputRange: [fontSize * 1.75, fontSize],
-    extrapolate: 'clamp',
+  const fontSizeStyle = useAnimatedStyle(() => {
+    const animatedFontSize = interpolate(
+      scrollAnimatedValue.value,
+      [-height, 0],
+      [fontSize * 1.75, fontSize],
+      Extrapolate.CLAMP
+    );
+    return {
+      fontSize: animatedFontSize,
+    };
   });
 
-  const [titleFade] = useState(new Animated.Value(0));
-
-  useEffect(() => {
-    state.isHeaderScrolled === false &&
-      Animated.timing(titleFade, {
-        toValue: 0,
+  const titleFadeStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(state.isHeaderScrolled ? 1 : 0, {
         duration: 200,
-        useNativeDriver: true,
-        easing: Easing.sin,
-      }).start();
-
-    state.isHeaderScrolled === true &&
-      Animated.timing(titleFade, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-        easing: Easing.sin,
-      }).start();
+        easing: Easing.ease,
+      }),
+    };
   });
 
   const renderConditionalListView = () => {
@@ -166,9 +166,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
                       styles.title,
                       titleStyle,
                       titleStyles,
-                      {
-                        fontSize: animatedFontSize,
-                      },
+                      fontSizeStyle,
                     ]}
                     numberOfLines={2}
                     onLayout={onLayout}
@@ -183,7 +181,9 @@ const HeaderScrollView: React.FC<Props> = (props) => {
           onScroll={Animated.event(
             [
               {
-                nativeEvent: { contentOffset: { y: scrollAnimatedValue } },
+                nativeEvent: {
+                  contentOffset: { y: scrollAnimatedValue.value },
+                },
               },
             ],
             {
@@ -197,32 +197,17 @@ const HeaderScrollView: React.FC<Props> = (props) => {
       );
     }
     return (
-      <ScrollView
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: { contentOffset: { y: scrollAnimatedValue } },
-            },
-          ],
-          {
-            listener: handleScroll,
-            useNativeDriver: false,
-          }
-        )}
+      <Animated.ScrollView
+        onScroll={(event) => {
+          handleScroll(event);
+        }}
         scrollEventThrottle={8}
         contentContainerStyle={scrollContainerStyle}
         {...scrollViewProps}
       >
         <View>
           <Animated.Text
-            style={[
-              styles.title,
-              titleStyle,
-              titleStyles,
-              {
-                fontSize: animatedFontSize,
-              },
-            ]}
+            style={[styles.title, titleStyle, titleStyles, fontSizeStyle]}
             numberOfLines={2}
             onLayout={onLayout}
           >
@@ -230,7 +215,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
           </Animated.Text>
         </View>
         {children}
-      </ScrollView>
+      </Animated.ScrollView>
     );
   };
   return (
@@ -240,7 +225,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
           style={[
             styles.headerComponentContainer,
             headerComponentContainerStyle,
-            { opacity: titleFade },
+            titleFadeStyle,
           ]}
         >
           <Text style={[styles.headline, headlineStyle]} numberOfLines={1}>

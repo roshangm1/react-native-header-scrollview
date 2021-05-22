@@ -29,43 +29,43 @@ export default function App() {
       ref?.current?.scrollToEnd?.({ animated: true });
     }, 1000);
   }, []);
+  // return (
+  //   <SafeAreaView style={{ flex: 1 }}>
+  //     <View
+  //       style={{
+  //         alignSelf: 'center',
+  //         position: 'absolute',
+  //         right: 16,
+  //         top: 16,
+  //       }}
+  //     >
+  //       <Text>Global settings</Text>
+  //     </View>
+  //     <HeaderScrollview
+  //       flatListRef={ref}
+  //       title="Hellow world adsfasdfasdfasdfasdf asdfa sdfasdf asdfasdf asdf asdf asdf asdf"
+  //       useFlatlist={true}
+  //       flatListProps={{
+  //         data: data,
+  //         keyExtractor: (item) => item.id.toString(),
+  //       }}
+  //       renderItem={renderItem}
+  //     />
+  //   </SafeAreaView>
+  // );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          alignSelf: 'center',
-          position: 'absolute',
-          right: 16,
-          top: 16,
-        }}
-      >
-        <Text>Global settings</Text>
-      </View>
-      <HeaderScrollview
-        flatListRef={ref}
-        title="Hellow world adsfasdfasdfasdfasdf asdfa sdfasdf asdfasdf asdf asdf asdf asdf"
-        useFlatlist={true}
-        flatListProps={{
-          data: data,
-          keyExtractor: (item) => item.id.toString(),
-        }}
-        renderItem={renderItem}
-      />
+      <HeaderScrollview title="Hello world">
+        {data.map((item, index) => {
+          if (index === 0) {
+            return null;
+          }
+          return renderItem({ item });
+        })}
+      </HeaderScrollview>
     </SafeAreaView>
   );
-
-  //   return (
-  //     <SafeAreaView style={{ flex: 1 }}>
-  //       <HeaderScrollview title="Hello world">
-  //         {data.map((item, index) => {
-  //           if (index === 0) {
-  //             return null;
-  //           }
-  //           return renderItem({ item });
-  //         })}
-  //       </HeaderScrollview>
-  //     </SafeAreaView>
-  //   );
 }
 
 const styles = StyleSheet.create({
