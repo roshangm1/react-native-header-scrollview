@@ -18,6 +18,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  useAnimatedScrollHandler,
 } from 'react-native-reanimated';
 
 const { height } = Dimensions.get('window');
@@ -66,8 +67,6 @@ const HeaderScrollView: React.FC<Props> = (props) => {
   const initialState = {
     headerHeight: 0,
     headerY: 0,
-    isHeaderScrolled: false,
-    fadeDirection: '',
   };
   const [state, setState] = useState(initialState);
 
@@ -82,30 +81,15 @@ const HeaderScrollView: React.FC<Props> = (props) => {
   };
 
   const scrollAnimatedValue = useSharedValue(0);
+  const isHeaderScrolled = useSharedValue(false);
 
-  const handleScroll = (event) => {
-    const offset = event?.nativeEvent?.contentOffset?.y;
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    const offset = event?.contentOffset.y;
+    scrollAnimatedValue.value = offset;
+
     const scrollHeaderOffset = state.headerHeight + state.headerY - 8;
-    const isHeaderScrolled = scrollHeaderOffset < offset;
-
-    if (!state.isHeaderScrolled && isHeaderScrolled) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          isHeaderScrolled,
-        };
-      });
-    }
-
-    if (state.isHeaderScrolled && !isHeaderScrolled) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          isHeaderScrolled,
-        };
-      });
-    }
-  };
+    isHeaderScrolled.value = scrollHeaderOffset < offset;
+  });
 
   const {
     useFlatlist,
@@ -144,7 +128,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
 
   const titleFadeStyle = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(state.isHeaderScrolled ? 1 : 0, {
+      opacity: withTiming(isHeaderScrolled.value ? 1 : 0, {
         duration: 200,
         easing: Easing.ease,
       }),
@@ -178,29 +162,22 @@ const HeaderScrollView: React.FC<Props> = (props) => {
             }
             return renderItem({ item, index });
           }}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: { y: scrollAnimatedValue.value },
-                },
-              },
-            ],
-            {
-              listener: handleScroll,
-              useNativeDriver: false,
-            }
-          )}
-          scrollEventThrottle={8}
-          contentContainerStyle={scrollContainerStyle}
+          renderScrollComponent={(scrollProps) => {
+            return (
+              <Animated.ScrollView
+                {...scrollProps}
+                onScroll={scrollHandler}
+                scrollEventThrottle={8}
+                contentContainerStyle={scrollContainerStyle}
+              />
+            );
+          }}
         />
       );
     }
     return (
       <Animated.ScrollView
-        onScroll={(event) => {
-          handleScroll(event);
-        }}
+        onScroll={scrollHandler}
         scrollEventThrottle={8}
         contentContainerStyle={scrollContainerStyle}
         {...scrollViewProps}
