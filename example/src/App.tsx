@@ -29,6 +29,7 @@ export default function App() {
       ref?.current?.scrollToEnd?.({ animated: true });
     }, 1000);
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
