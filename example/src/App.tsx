@@ -29,6 +29,7 @@ export default function App() {
       ref?.current?.scrollToEnd?.({ animated: true });
     }, 1000);
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -54,18 +55,18 @@ export default function App() {
     </SafeAreaView>
   );
 
-  //   return (
-  //     <SafeAreaView style={{ flex: 1 }}>
-  //       <HeaderScrollview title="Hello world">
-  //         {data.map((item, index) => {
-  //           if (index === 0) {
-  //             return null;
-  //           }
-  //           return renderItem({ item });
-  //         })}
-  //       </HeaderScrollview>
-  //     </SafeAreaView>
-  //   );
+  // return (
+  //   <SafeAreaView style={{ flex: 1 }}>
+  //     <HeaderScrollview title="Hello world">
+  //       {data.map((item, index) => {
+  //         if (index === 0) {
+  //           return null;
+  //         }
+  //         return renderItem({ item });
+  //       })}
+  //     </HeaderScrollview>
+  //   </SafeAreaView>
+  // );
 }
 
 const styles = StyleSheet.create({
