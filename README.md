@@ -1,6 +1,13 @@
 # @roshangm1/react-native-header-scrollview
 
-Library for big header like ios with Typescript support
+Header ScrollView/FlatList for react native.
+
+## Features
+
+- [x] Typescript
+- [x] Works with Expo
+- [x] Reanimated v2 (on >0.4.0)
+- [x] Flatlist support (with tweaks)
 
 ## Installation
 
@@ -33,7 +40,7 @@ return <HeaderScrollview title="Hello">content...</HeaderScrollview>;
 
 ### Flatlist
 
-```json
+```js
   const data = [
     { id: 'header' }, // first index act as a header so always prepend extra item to your data
     { id: 1 },
@@ -59,7 +66,30 @@ return (
 );
 ```
 
-Please check [example](https://github.com/roshangm1/react-native-header-scrollview/tree/main/example) for implementation detail.
+Please check [example](https://github.com/roshangm1/react-native-header-scrollview/tree/main/example) for implementation detail. Or you can refer to this snack.
+
+<div data-snack-id="@roshangm1/lonely-ramen" data-snack-platform="ios" data-snack-preview="true" data-snack-theme="dark" style="overflow:hidden;background:#212121;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%"></div><script async src="https://snack.expo.io/embed.js"></script>
+
+## Props
+
+Only required prop:
+
+| Prop    | Type   | Description                                                                                                                             |
+| ------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `title` | string | The title of the header. This will show up as large text inside the scroll view and then fade in as the smaller text inside the header. |
+
+From there, you can customize this component to get exactly what you want.
+
+| Prop                            | Type                         | Description                                                                                                             |
+| ------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `titleStyle`                    | React Native style or Object | Styles the large header title component inside the scroll view.                                                         |
+| `containerStyle`                | React Native style or Object | Styles the entire container wrapping the header and the scrollview.                                                     |
+| `headerContainerStyle`          | React Native style or Object | Styles the container of the header component that appears after scrolling.                                              |
+| `headerComponentContainerStyle` | React Native style or Object | Styles the component inside the header. Anything within this style will fade in and out as the scroll position changes. |
+| `headlineStyle`                 | React Native style or Object | Styles the header text inside the header that appears after scrolling.                                                  |
+| `scrollContainerStyle`          | React Native style or Object | Styles the scroll view component.                                                                                       |
+| `useFlatlist`                   | String                       | Use Flatlist instead of ScrollView,                                                                                     |
+| `scrollViewProps`               | Object                       | Pass any extra props to the scrollView.                                                                                 |
 
 ## Contributing
 
@@ -68,3 +98,5 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
+
+This project is the custom fork of this [repository](https://github.com/jonsamp/react-native-header-scroll-view) which is not maintained now.
