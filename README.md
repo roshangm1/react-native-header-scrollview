@@ -66,9 +66,9 @@ return (
 );
 ```
 
-Please check [example](https://github.com/roshangm1/react-native-header-scrollview/tree/main/example) for implementation detail. Or you can refer to this snack.
+Please check [example](https://github.com/roshangm1/react-native-header-scrollview/tree/main/example) for implementation detail. Or you can refer to this snack here:
 
-<div data-snack-id="@roshangm1/lonely-ramen" data-snack-platform="ios" data-snack-preview="true" data-snack-theme="dark" style="overflow:hidden;background:#212121;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%"></div><script async src="https://snack.expo.io/embed.js"></script>
+[Header Scrollview Example](https://snack.expo.io/@roshangm1/lonely-ramen)
 
 ## Props
 
