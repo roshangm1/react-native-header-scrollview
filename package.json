@@ -1,6 +1,6 @@
 {
   "name": "@roshangm1/react-native-header-scrollview",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Library for big header like ios",
   "main": "lib/commonjs/index",
   "types": "lib/typescript/src/index.d.ts",
