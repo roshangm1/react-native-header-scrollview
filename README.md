@@ -66,7 +66,7 @@ return (
 );
 ```
 
-Please check [example](https://github.com/roshangm1/react-native-header-scrollview/tree/main/example) for implementation detail. Or you can refer to this snack here:
+Please check [example](https://github.com/roshangm1/react-native-header-scrollview/tree/main/example) for implementation detail. Or you can refer to this snack from the link below. Note that, this doesn't run in web.
 
 [Header Scrollview Example](https://snack.expo.io/@roshangm1/lonely-ramen)
 
