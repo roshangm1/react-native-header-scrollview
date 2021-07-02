@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
 interface Props {
   title: string;
   useFlatlist?: boolean;
+  titleComponent?: any;
   titleStyle?: StyleProp<TextStyle>;
   headlineStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -96,6 +97,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     children,
     title = '',
     titleStyle,
+    titleComponent,
     containerStyle = {},
     headerContainerStyle = {},
     headerComponentContainerStyle = {},
@@ -145,18 +147,24 @@ const HeaderScrollView: React.FC<Props> = (props) => {
             if (index === 0) {
               return (
                 <View>
-                  <Animated.Text
-                    style={[
-                      styles.title,
-                      titleStyle,
-                      titleStyles,
-                      fontSizeStyle,
-                    ]}
-                    numberOfLines={2}
-                    onLayout={onLayout}
-                  >
-                    {title}
-                  </Animated.Text>
+                  {titleComponent ? (
+                    <Animated.View onLayout={onLayout}>
+                      {titleComponent}
+                    </Animated.View>
+                  ) : (
+                    <Animated.Text
+                      style={[
+                        styles.title,
+                        titleStyle,
+                        titleStyles,
+                        fontSizeStyle,
+                      ]}
+                      numberOfLines={2}
+                      onLayout={onLayout}
+                    >
+                      {title}
+                    </Animated.Text>
+                  )}
                 </View>
               );
             }
@@ -182,15 +190,13 @@ const HeaderScrollView: React.FC<Props> = (props) => {
         contentContainerStyle={scrollContainerStyle}
         {...scrollViewProps}
       >
-        <View>
-          <Animated.Text
-            style={[styles.title, titleStyle, titleStyles, fontSizeStyle]}
-            numberOfLines={2}
-            onLayout={onLayout}
-          >
-            {title}
-          </Animated.Text>
-        </View>
+        <Animated.Text
+          style={[styles.title, titleStyle, titleStyles, fontSizeStyle]}
+          numberOfLines={2}
+          onLayout={onLayout}
+        >
+          {title}
+        </Animated.Text>
         {children}
       </Animated.ScrollView>
     );

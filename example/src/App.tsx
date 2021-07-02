@@ -1,6 +1,13 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, FlatList, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+  Image,
+} from 'react-native';
 import HeaderScrollview from '@roshangm1/react-native-header-scrollview';
 
 export default function App() {
@@ -25,9 +32,9 @@ export default function App() {
   };
 
   React.useEffect(() => {
-    setTimeout(() => {
-      ref?.current?.scrollToEnd?.({ animated: true });
-    }, 1000);
+    // setTimeout(() => {
+    //   ref?.current?.scrollToEnd?.({ animated: true });
+    // }, 1000);
   }, []);
 
   return (
@@ -44,7 +51,19 @@ export default function App() {
       </View>
       <HeaderScrollview
         flatListRef={ref}
-        title="Hellow world adsfasdfasdfasdfasdf asdfa sdfasdf asdfasdf asdf asdf asdf asdf"
+        title="Hellow world"
+        titleComponent={
+          <Image
+            source={{
+              uri: 'http://mercurio.diagonal.services/storage//mercurio.diagonal.services/assets/logo/16244548715013_Logo.png',
+            }}
+            resizeMode="center"
+            style={{
+              width: 200,
+              height: 80,
+            }}
+          />
+        }
         useFlatlist={true}
         flatListProps={{
           data: data,
