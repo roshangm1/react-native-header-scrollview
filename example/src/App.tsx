@@ -13,7 +13,25 @@ import HeaderScrollview from '@roshangm1/react-native-header-scrollview';
 export default function App() {
   const ref = React.useRef<FlatList<any>>();
   const data = [
-    { id: 'header' },
+    {
+      id: 'header1',
+      component: (
+        <Image
+          source={{
+            uri: 'http://mercurio.diagonal.services/storage//mercurio.diagonal.services/assets/logo/16244548715013_Logo.png',
+          }}
+          resizeMode="center"
+          style={{
+            width: 200,
+            height: 80,
+          }}
+        />
+      ),
+    },
+    {
+      id: 'header2',
+      component: <Text style={{ backgroundColor: 'white' }}>Hello</Text>,
+    },
     { id: 1 },
     { id: 2 },
     { id: 3 },
@@ -52,22 +70,11 @@ export default function App() {
       <HeaderScrollview
         flatListRef={ref}
         title="Hellow world"
-        titleComponent={
-          <Image
-            source={{
-              uri: 'http://mercurio.diagonal.services/storage//mercurio.diagonal.services/assets/logo/16244548715013_Logo.png',
-            }}
-            resizeMode="center"
-            style={{
-              width: 200,
-              height: 80,
-            }}
-          />
-        }
         useFlatlist={true}
         flatListProps={{
           data: data,
           keyExtractor: (item) => item.id.toString(),
+          stickyHeaderIndices: [1],
         }}
         renderItem={renderItem}
       />

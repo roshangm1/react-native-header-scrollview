@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
 interface Props {
   title: string;
   useFlatlist?: boolean;
-  titleComponent?: any;
   titleStyle?: StyleProp<TextStyle>;
   headlineStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -97,7 +96,6 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     children,
     title = '',
     titleStyle,
-    titleComponent,
     containerStyle = {},
     headerContainerStyle = {},
     headerComponentContainerStyle = {},
@@ -144,12 +142,12 @@ const HeaderScrollView: React.FC<Props> = (props) => {
           {...flatListProps}
           ref={flatListRef}
           renderItem={({ item, index }) => {
-            if (index === 0) {
+            if (item.id === 'header1') {
               return (
                 <View>
-                  {titleComponent ? (
+                  {item.component ? (
                     <Animated.View onLayout={onLayout}>
-                      {titleComponent}
+                      {item.component}
                     </Animated.View>
                   ) : (
                     <Animated.Text
@@ -168,6 +166,10 @@ const HeaderScrollView: React.FC<Props> = (props) => {
                 </View>
               );
             }
+            if (item.id === 'header2') {
+              return item.component;
+            }
+
             return renderItem({ item, index });
           }}
           renderScrollComponent={(scrollProps) => {
