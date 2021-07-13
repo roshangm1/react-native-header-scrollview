@@ -49,9 +49,12 @@ const styles = StyleSheet.create({
   },
 });
 
+export interface HeaderProps {
+  id: 'header1' | 'header2';
+  component: JSX.Element;
+}
 interface Props {
   title: string;
-  useFlatlist?: boolean;
   titleStyle?: StyleProp<TextStyle>;
   headlineStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -59,10 +62,15 @@ interface Props {
   headerComponentContainerStyle?: StyleProp<ViewStyle>;
   scrollContainerStyle?: StyleProp<ViewStyle>;
   scrollViewProps?: ScrollViewProps;
-  flatListProps?: Omit<FlatListProps<any>, 'renderItem'>;
-  renderItem?: any;
+  headers: HeaderProps[];
+  //flat lit related props
+  useFlatlist?: boolean;
+  data?: ReadonlyArray<any> | null | undefined;
+  flatListProps?: Omit<FlatListProps<any>, 'renderItem' | 'data'>;
   flatListRef?: MutableRefObject<FlatList<any>>;
+  renderItem?: any;
 }
+
 const HeaderScrollView: React.FC<Props> = (props) => {
   const initialState = {
     headerHeight: 0,
@@ -93,8 +101,8 @@ const HeaderScrollView: React.FC<Props> = (props) => {
 
   const {
     useFlatlist,
-    children,
     title = '',
+    children,
     titleStyle,
     containerStyle = {},
     headerContainerStyle = {},
@@ -104,6 +112,8 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     scrollViewProps = {},
     flatListProps,
     renderItem,
+    data,
+    headers,
     flatListRef,
   } = props;
 
@@ -135,43 +145,43 @@ const HeaderScrollView: React.FC<Props> = (props) => {
     };
   });
 
+  const renderParallaxHeader = ({ item, index }) => {
+    if (item.id === 'header1') {
+      return (
+        <View key={item.id}>
+          {item.component ? (
+            <Animated.View onLayout={onLayout}>{item.component}</Animated.View>
+          ) : (
+            <Animated.Text
+              style={[styles.title, titleStyle, titleStyles, fontSizeStyle]}
+              numberOfLines={2}
+              onLayout={onLayout}
+            >
+              {title}
+            </Animated.Text>
+          )}
+        </View>
+      );
+    }
+    if (item.id === 'header2') {
+      return <View key={item.id}>{item.component}</View>;
+    }
+    if (useFlatlist) {
+      return renderItem({ item, index });
+    }
+  };
+
   const renderConditionalListView = () => {
     if (useFlatlist) {
+      const dataWithHeaders = headers ? [...headers, ...data] : data;
       return (
         <FlatList
           {...flatListProps}
           ref={flatListRef}
           renderItem={({ item, index }) => {
-            if (item.id === 'header1') {
-              return (
-                <View>
-                  {item.component ? (
-                    <Animated.View onLayout={onLayout}>
-                      {item.component}
-                    </Animated.View>
-                  ) : (
-                    <Animated.Text
-                      style={[
-                        styles.title,
-                        titleStyle,
-                        titleStyles,
-                        fontSizeStyle,
-                      ]}
-                      numberOfLines={2}
-                      onLayout={onLayout}
-                    >
-                      {title}
-                    </Animated.Text>
-                  )}
-                </View>
-              );
-            }
-            if (item.id === 'header2') {
-              return item.component;
-            }
-
-            return renderItem({ item, index });
+            return renderParallaxHeader({ item, index });
           }}
+          data={dataWithHeaders}
           renderScrollComponent={(scrollProps) => {
             return (
               <Animated.ScrollView
@@ -192,13 +202,9 @@ const HeaderScrollView: React.FC<Props> = (props) => {
         contentContainerStyle={scrollContainerStyle}
         {...scrollViewProps}
       >
-        <Animated.Text
-          style={[styles.title, titleStyle, titleStyles, fontSizeStyle]}
-          numberOfLines={2}
-          onLayout={onLayout}
-        >
-          {title}
-        </Animated.Text>
+        {headers?.map((item, index) => {
+          return renderParallaxHeader({ item, index });
+        })}
         {children}
       </Animated.ScrollView>
     );

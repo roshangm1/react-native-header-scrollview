@@ -8,11 +8,13 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import HeaderScrollview from '@roshangm1/react-native-header-scrollview';
+import HeaderScrollview, {
+  HeaderProps,
+} from '@roshangm1/react-native-header-scrollview';
 
 export default function App() {
   const ref = React.useRef<FlatList<any>>();
-  const data = [
+  const headers: HeaderProps[] = [
     {
       id: 'header1',
       component: (
@@ -32,6 +34,8 @@ export default function App() {
       id: 'header2',
       component: <Text style={{ backgroundColor: 'white' }}>Hello</Text>,
     },
+  ];
+  const data = [
     { id: 1 },
     { id: 2 },
     { id: 3 },
@@ -41,6 +45,7 @@ export default function App() {
     { id: 7 },
     { id: 8 },
   ];
+
   const renderItem = ({ item }) => {
     return (
       <View key={item.id} style={styles.box}>
@@ -68,26 +73,29 @@ export default function App() {
         <Text>Global settings</Text>
       </View>
       <HeaderScrollview
+        data={data}
+        headers={headers}
+        renderItem={renderItem}
         flatListRef={ref}
         title="Hellow world"
         useFlatlist={true}
         flatListProps={{
-          data: data,
           keyExtractor: (item) => item.id.toString(),
           stickyHeaderIndices: [1],
         }}
-        renderItem={renderItem}
       />
     </SafeAreaView>
   );
 
   // return (
   //   <SafeAreaView style={{ flex: 1 }}>
-  //     <HeaderScrollview title="Hello world">
-  //       {data.map((item, index) => {
-  //         if (index === 0) {
-  //           return null;
-  //         }
+  //     <HeaderScrollview
+  //       title="Hello world"
+  //       headers={headers}
+  //       scrollViewProps={{ stickyHeaderIndices: [1] }}
+  //     >
+  //       <Text>Oder</Text>
+  //       {data.map((item) => {
   //         return renderItem({ item });
   //       })}
   //     </HeaderScrollview>
