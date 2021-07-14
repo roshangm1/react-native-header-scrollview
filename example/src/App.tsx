@@ -77,7 +77,6 @@ export default function App() {
         headers={headers}
         renderItem={renderItem}
         flatListRef={ref}
-        title="Hellow world"
         useFlatlist={true}
         flatListProps={{
           keyExtractor: (item) => item.id.toString(),

@@ -54,7 +54,7 @@ export interface HeaderProps {
   component: JSX.Element;
 }
 interface Props {
-  title: string;
+  title?: string;
   titleStyle?: StyleProp<TextStyle>;
   headlineStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -173,7 +173,7 @@ const HeaderScrollView: React.FC<Props> = (props) => {
 
   const renderConditionalListView = () => {
     if (useFlatlist) {
-      const dataWithHeaders = headers ? [...headers, ...data] : data;
+      const dataWithHeaders = headers ? [...headers, ...(data ?? [])] : data;
       return (
         <FlatList
           {...flatListProps}
@@ -211,19 +211,21 @@ const HeaderScrollView: React.FC<Props> = (props) => {
   };
   return (
     <View style={[styles.container, containerStyle]}>
-      <View style={[styles.headerContainer, headerContainerStyle]}>
-        <Animated.View
-          style={[
-            styles.headerComponentContainer,
-            headerComponentContainerStyle,
-            titleFadeStyle,
-          ]}
-        >
-          <Text style={[styles.headline, headlineStyle]} numberOfLines={1}>
-            {title}
-          </Text>
-        </Animated.View>
-      </View>
+      {title ? (
+        <View style={[styles.headerContainer, headerContainerStyle]}>
+          <Animated.View
+            style={[
+              styles.headerComponentContainer,
+              headerComponentContainerStyle,
+              titleFadeStyle,
+            ]}
+          >
+            <Text style={[styles.headline, headlineStyle]} numberOfLines={1}>
+              {title}
+            </Text>
+          </Animated.View>
+        </View>
+      ) : null}
       {renderConditionalListView()}
     </View>
   );
